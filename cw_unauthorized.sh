@@ -1,10 +1,10 @@
-#This script creates a new Unathorized API Call CloudWatch Metric and Alarm that excludes Macie
+#This script creates a new Unauthorized API Call CloudWatch Metric and Alarm that excludes Macie
 #Variables set for SNS-arn and Log Group name
 export SNS='cloudtrail_alerts'
 export LOGGROUP='aws-cloudtrail-logs'
 
 ## Metrics ##
-echo "Creating new Unathorized API Call CloudWatch Metrics....." && sleep 3
+echo "Creating new Unauthorized API Call CloudWatch Metrics....." && sleep 3
 # Unauthorized API calls
 aws logs put-metric-filter --log-group-name $LOGGROUP --filter-name unauthorized_api_calls_metric  --metric-transformations metricName=unauthorized_api_calls_metric_v2,metricNamespace='CISBenchmark',metricValue=1 --filter-pattern '{ ($.errorCode = "*UnauthorizedOperation") || ($.errorCode = "AccessDenied*") && ($.eventSource != "macie.amazonaws.com") && ($.eventSource != "macie2.amazonaws.com")}'
 echo "unauthorized_api_calls_metric = metric created"
